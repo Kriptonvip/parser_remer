@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<yml_catalog>
+  <shop>
+    <offers>
+      <offer id="AVLH3/2.0">
+        <price>3300</price>
+        <oldprice>3960</oldprice>
+        <min_price>2640</min_price>
+        <outlets>
+          <outlet instock="0" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="AVLH3/2.0b">
+        <price>3300</price>
+        <oldprice>3960</oldprice>
+        <min_price>2640</min_price>
+        <outlets>
+          <outlet instock="0" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="AVLH3/max">
+        <price>3300</price>
+        <oldprice>3960</oldprice>
+        <min_price>2640</min_price>
+        <outlets>
+          <outlet instock="10" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="AVLH3/maxb">
+        <price>3300</price>
+        <oldprice>3960</oldprice>
+        <min_price>2640</min_price>
+        <outlets>
+          <outlet instock="10" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDA/2.0">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="0" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDA/2.0b">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="0" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDA/max">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="0" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDA/maxb">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="0" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDAGR/2.0">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="10" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDAGR/2.0b">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="10" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDAGR/max">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="10" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+      <offer id="JLDAGR/maxb">
+        <price>4180</price>
+        <oldprice>5016</oldprice>
+        <min_price>3344</min_price>
+        <outlets>
+          <outlet instock="10" warehouse_name="TTСпорт"/>
+        </outlets>
+      </offer>
+    </offers>
+  </shop>
+</yml_catalog>
