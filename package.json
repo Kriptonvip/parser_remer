@@ -26,6 +26,13 @@
     "jszip": "^3.10.1",
     "klaw": "^4.1.0",
     "klaw-sync": "^6.0.0",
+    "node-fetch": "^3.3.2",
+    "path": "^0.12.7",
+    "pdf-image": "^2.0.0",
+    "pdf-poppler": "^0.2.1",
+    "pdf2image": "^1.2.3",
+    "pdfjs-dist": "^3.11.174",
+    "puppeteer": "^21.3.5",
     "q": "^1.5.1",
     "unzipper": "^0.10.11",
     "xmlbuilder": "^15.1.1"
