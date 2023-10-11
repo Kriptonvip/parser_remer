@@ -92,18 +92,34 @@ const price = parseFloat(priceText.replace(/\s+/g, '').replace('₽', '').replac
 
 // Найти вкладку "Характеристики" по её ID "char"
 const characteristicsTab = $('#char');
+const characteristics = {};
 // Найти все строки характеристик
 const characteristicRows = characteristicsTab.find('.char');
-// Создать объект для хранения характеристик
-const characteristics = {};
-// Перебрать каждую строку характеристики и извлечь название и значение
-characteristicRows.each((index, element) => {
-  const name = $(element).find('.char_name span').text().trim();
-  const value = $(element).find('.char_value span').text().trim();
-  characteristics[name] = value;
-});
+const characteristicsBlock = $('.properties');
+
+if (characteristicsTab.length < 1) {
+  const characteristicElements = characteristicsBlock.find('.properties__item');
+
+  // Перебрать каждый элемент характеристики и извлечь название и значение
+  characteristicElements.each((index, element) => {
+    const name = $(element).find('.properties__title').text().trim();
+    const value = $(element).find('.properties__value').text().trim();
+    characteristics[name] = value;
+  });
+} else {
+  // Создать объект для хранения характеристик
+  
+  // Перебрать каждую строку характеристики и извлечь название и значение
+  characteristicRows.each((index, element) => {
+    const name = $(element).find('.char_name span').text().trim();
+    const value = $(element).find('.char_value span').text().trim();
+    characteristics[name] = value;
+  });
 // Вывести характеристики в консоль
 //console.log(characteristics);
+}
+
+const brand = 'REMER';
 
 const imageElements = $('.gallery-slider-thumb__container img');
 
@@ -159,7 +175,34 @@ try {
 const colorElement = $('.sku-props__js-size');
 const color = colorElement.text().trim();
 
-//console.log("Цвет:", color);
+
+
+// //Функция для собирания адресов всех артикулов.
+// const colorVariantLinks = [];
+// const colorVariantElements = $('[itemprop="offers"] [itemprop="url"]');
+// if (colorVariantElements.length === 0) {
+//   colorVariantLinks.push[url]
+// }
+// colorVariantElements.each((index, element) => {
+//   const url = $(element).attr('href');
+//   if (url) {
+//     colorVariantLinks.push(`https://remer.shop${url}`);
+//   }
+// });
+// await appendLinksToFile(colorVariantLinks, 'colorVariantLinks.txt');
+// async function parseColorVariants() {
+//   for (const url of colorVariantLinks) {
+//     const product = await parseAndSave(url);
+//     allProducts.push(product);
+//   }
+// }
+
+// // const modifiedLinks = colorVariantLinks.map((url) => `${url}?oid=${oid}`);
+
+// Выводим модифицированные URL-адреса
+// console.log('colorVariantLinks:', colorVariantLinks);
+
+
 
 const prodObj = {
   "Тип строки": prodType, 
@@ -180,7 +223,7 @@ const prodObj = {
   "Наклейка": '',
   "Статус": 1,
   "Выбор вариантов товара": isProductVariant ? 1 : 2,
-  "Тип товаров": 'Смеситель для раковины',
+  "Тип товаров": 'Смеситель для душа',
   "Теги": '',
   "Облагается налогом": '',
   "Заголовок": '',
@@ -200,11 +243,11 @@ const prodObj = {
   "Производство": isVariant ? '' : characteristics["Страна производитель"],
   "Комплектация": '',
   "Дизайн": '',
-  "Производитель": isVariant ? '' : characteristics["Бренд"],
+  "Производитель": isVariant ? '' : brand,
   "Тип монтажа":isVariant ? '' : characteristics["Монтаж"],
   "Артикул Производителя": artikulName,
   "Управление": isVariant ? '' : characteristics["Тип смесителя"],
-  "Назначение": 'для раковины',
+  "Назначение": 'для душа',
   "дополнительные материалы": '',
   "Излив": '',
   "Тип подводки": '',
@@ -291,7 +334,7 @@ if (isProduct || isProductVariant) {
 }
 
 async function main() {
-  const urls = await readUrlsFromFile('./links/urls_test.txt');
+  const urls = await readUrlsFromFile('./links/dushevye-sistemyAll.txt');
   const allProducts = [];
   const prodUrls = new Set();
   const prodNames = new Set();
@@ -308,7 +351,7 @@ async function main() {
       }
     }
   }
-  const csvFilename = `products_remer.csv`;
+  const csvFilename = `./result/dushevye-sistemy.csv`;
   const csvContent = `${Object.keys(allProducts[0]).join(';')}\n${allProducts.map(p => Object.values(p).join(';')).join('\n')}`;
 
   await fs.writeFile(csvFilename, csvContent, 'utf-8');

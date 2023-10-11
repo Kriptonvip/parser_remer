@@ -33,7 +33,8 @@ async function downloadAndConvertPDFToImages(pdfUrl) {
 
     // Команда для конвертации PDF в изображения
     const pdfNameWithoutExtension = path.basename(pdfFileName, path.extname(pdfFileName));
-    const convertCommand = `pdftoppm -jpeg ${pdfFilePath} ${tempDir}/${pdfNameWithoutExtension}`;
+    console.log(pdfNameWithoutExtension);
+    const convertCommand = `pdftoppm -singlefile -jpeg ${pdfFilePath} ${tempDir}/${pdfNameWithoutExtension}`;
 
     // Выполняем команду
     await new Promise((resolve, reject) => {
@@ -42,11 +43,15 @@ async function downloadAndConvertPDFToImages(pdfUrl) {
           reject(error);
           return;
         }
-        if (stderr) {
-          reject(new Error(stderr));
-          return;
+        try {
+          if (stderr) {
+            throw new Error(stderr);
+          }
+          resolve();
+        } catch (err) {
+          console.error('Ошибка при конвертации:', err);
+          resolve(); // Продолжаем выполнение программы после ошибки
         }
-        resolve();
       });
     });
 
@@ -54,12 +59,12 @@ async function downloadAndConvertPDFToImages(pdfUrl) {
     const imageFiles = await fs.readdir(tempDir);
     const imagePaths = imageFiles.map((file) => `${tempDir}/${file}`);
 
-    console.log('Изображения сохранены в:', imagePaths);
+    // console.log('Изображения сохранены в:', imagePaths);
 
     // Опционально, можно удалить временный каталог после использования
     // await fs.rmdir(tempDir, { recursive: true });
 
-    return imagePaths;
+    return pdfNameWithoutExtension + '.jpg';
   } catch (error) {
     console.error('Произошла ошибка:', error);
   }

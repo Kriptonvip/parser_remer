@@ -308,7 +308,7 @@ async function main() {
       }
     }
   }
-  const csvFilename = `products_remer.csv`;
+  const csvFilename = `./result/products_reme_racovins.csv`;
   const csvContent = `${Object.keys(allProducts[0]).join(';')}\n${allProducts.map(p => Object.values(p).join(';')).join('\n')}`;
 
   await fs.writeFile(csvFilename, csvContent, 'utf-8');

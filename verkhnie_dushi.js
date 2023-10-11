@@ -71,9 +71,11 @@ const imgProductVariant = 'https://remer.shop' + $('#big-photo-0 a').attr('href'
   if(prodNames.has(productName) && prodNames.has(artikulName)) {
     console.log(productName + ' ALREADY has in productName Set')
     return products;
+  } else {
+    prodNames.add(productName) //если нет то добавляем.
+    prodNames.add(artikulName) //если нет то добавляем.
   }
-  prodNames.add(productName) //если нет то добавляем.
-  prodNames.add(artikulName) //если нет то добавляем.
+
 
   const descriptionText = $('#desc').find('.content').text().trim();
   const images = [];
@@ -92,18 +94,34 @@ const price = parseFloat(priceText.replace(/\s+/g, '').replace('₽', '').replac
 
 // Найти вкладку "Характеристики" по её ID "char"
 const characteristicsTab = $('#char');
+const characteristics = {};
 // Найти все строки характеристик
 const characteristicRows = characteristicsTab.find('.char');
-// Создать объект для хранения характеристик
-const characteristics = {};
-// Перебрать каждую строку характеристики и извлечь название и значение
-characteristicRows.each((index, element) => {
-  const name = $(element).find('.char_name span').text().trim();
-  const value = $(element).find('.char_value span').text().trim();
-  characteristics[name] = value;
-});
+const characteristicsBlock = $('.properties');
+
+if (characteristicsTab.length < 1) {
+  const characteristicElements = characteristicsBlock.find('.properties__item');
+
+  // Перебрать каждый элемент характеристики и извлечь название и значение
+  characteristicElements.each((index, element) => {
+    const name = $(element).find('.properties__title').text().trim();
+    const value = $(element).find('.properties__value').text().trim();
+    characteristics[name] = value;
+  });
+} else {
+  // Создать объект для хранения характеристик
+  
+  // Перебрать каждую строку характеристики и извлечь название и значение
+  characteristicRows.each((index, element) => {
+    const name = $(element).find('.char_name span').text().trim();
+    const value = $(element).find('.char_value span').text().trim();
+    characteristics[name] = value;
+  });
 // Вывести характеристики в консоль
 //console.log(characteristics);
+}
+
+const brand = 'REMER';
 
 const imageElements = $('.gallery-slider-thumb__container img');
 
@@ -159,7 +177,34 @@ try {
 const colorElement = $('.sku-props__js-size');
 const color = colorElement.text().trim();
 
-//console.log("Цвет:", color);
+
+
+// //Функция для собирания адресов всех артикулов.
+// const colorVariantLinks = [];
+// const colorVariantElements = $('[itemprop="offers"] [itemprop="url"]');
+// if (colorVariantElements.length === 0) {
+//   colorVariantLinks.push[url]
+// }
+// colorVariantElements.each((index, element) => {
+//   const url = $(element).attr('href');
+//   if (url) {
+//     colorVariantLinks.push(`https://remer.shop${url}`);
+//   }
+// });
+// await appendLinksToFile(colorVariantLinks, 'colorVariantLinks.txt');
+// async function parseColorVariants() {
+//   for (const url of colorVariantLinks) {
+//     const product = await parseAndSave(url);
+//     allProducts.push(product);
+//   }
+// }
+
+// // const modifiedLinks = colorVariantLinks.map((url) => `${url}?oid=${oid}`);
+
+// Выводим модифицированные URL-адреса
+// console.log('colorVariantLinks:', colorVariantLinks);
+
+
 
 const prodObj = {
   "Тип строки": prodType, 
@@ -169,7 +214,7 @@ const prodObj = {
   "Валюта": 'RUB',
   "ID артикула": '', // id артикула выдается при загрузке
   "Цена": isVariant || isProductVariant ? price : '',
-  "Доступен для заказа": isProduct ? '' : 1,
+  "Доступен для заказа": (isProduct || isProductVariant) && (Number(price) > 0) ? '' : 1,
   "Видимость на витрине": isProduct ? '' : 1,
   "Зачеркнутая цена": isProduct ? '' : 0,
   "Закупочная цена": isProduct ? '' : 0,
@@ -180,7 +225,7 @@ const prodObj = {
   "Наклейка": '',
   "Статус": 1,
   "Выбор вариантов товара": isProductVariant ? 1 : 2,
-  "Тип товаров": 'Смеситель для раковины',
+  "Тип товаров": 'Смесители скрытого монтажа',
   "Теги": '',
   "Облагается налогом": '',
   "Заголовок": '',
@@ -200,11 +245,14 @@ const prodObj = {
   "Производство": isVariant ? '' : characteristics["Страна производитель"],
   "Комплектация": '',
   "Дизайн": '',
-  "Производитель": isVariant ? '' : characteristics["Бренд"],
+  "Производитель": isVariant ? '' : brand,
   "Тип монтажа":isVariant ? '' : characteristics["Монтаж"],
   "Артикул Производителя": artikulName,
   "Управление": isVariant ? '' : characteristics["Тип смесителя"],
-  "Назначение": 'для раковины',
+  "Назначение": isVariant ? '' : characteristics["Назначение"],
+  "Kоличество потоков": isVariant ? '' : characteristics["Kоличество потоков"],
+  "Скрытая часть": isVariant ? '' : characteristics["Скрытая часть"],
+  "Скрытая часть": isVariant ? '' : characteristics["Скрытая часть"],
   "дополнительные материалы": '',
   "Излив": '',
   "Тип подводки": '',
@@ -213,7 +261,7 @@ const prodObj = {
   "Длина излива": '',
   "Форма излива": '',
   "Механизм": '',
-  "Форма": '',
+  "Форма": isVariant ? '' : characteristics["Форма"],
   "Стандарт подводки": '',
   "Система против известковых отложений": '',
   "Ручной душ": '',
@@ -291,7 +339,7 @@ if (isProduct || isProductVariant) {
 }
 
 async function main() {
-  const urls = await readUrlsFromFile('./links/urls_test.txt');
+  const urls = await readUrlsFromFile('./links/verkhnie_dushiAll.txt');
   const allProducts = [];
   const prodUrls = new Set();
   const prodNames = new Set();
@@ -308,7 +356,7 @@ async function main() {
       }
     }
   }
-  const csvFilename = `products_remer.csv`;
+  const csvFilename = `./result/verkhnie_dushi.csv`;
   const csvContent = `${Object.keys(allProducts[0]).join(';')}\n${allProducts.map(p => Object.values(p).join(';')).join('\n')}`;
 
   await fs.writeFile(csvFilename, csvContent, 'utf-8');
